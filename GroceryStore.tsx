@@ -89,6 +89,7 @@ const GroceryStore = () => {
           <View style={groceryStyleSheet.addbuttonView}>
             {item?.count === 0 ? (
               <TouchableOpacity
+                activeOpacity={0.8}
                 style={groceryStyleSheet.addButton}
                 onPress={() => {
                   if (grocery?.includes(item)) {
@@ -101,6 +102,7 @@ const GroceryStore = () => {
             ) : (
               <View style={groceryStyleSheet.touchableOpacityView}>
                 <TouchableOpacity
+                  activeOpacity={0.8}
                   onPress={() => {
                     item.count--;
                     setGrocery([...grocery]);
@@ -110,6 +112,7 @@ const GroceryStore = () => {
                 </TouchableOpacity>
                 <Text style={groceryStyleSheet.counterText}>{item?.count}</Text>
                 <TouchableOpacity
+                  activeOpacity={0.8}
                   onPress={() => {
                     item.count++;
                     setGrocery([...grocery]);
