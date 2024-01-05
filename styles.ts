@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-const flatListstyles = StyleSheet.create({
+const groceryStyleSheet = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: 'green',
@@ -166,4 +166,4 @@ const flatListstyles = StyleSheet.create({
   },
 });
 
-export default flatListstyles;
+export default groceryStyleSheet;
