@@ -8,8 +8,13 @@ import {
 } from 'react-native';
 import groceryStyleSheet from './styles';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 
-const GroceryStore = () => {
+const GroceryStore = ({navigation}) => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [grocery, setGrocery] = useState<Array<GroceryItem>>([]);
 
@@ -75,6 +80,10 @@ const GroceryStore = () => {
     return sum;
   }, [grocery]);
 
+  const handleEmpty = () => {
+    return <Text style={groceryStyleSheet.text}> No data present!</Text>;
+  };
+
   const ListItem = ({item, index}: {item: GroceryItem; index: number}) => {
     return (
       <View
@@ -85,73 +94,84 @@ const GroceryStore = () => {
             borderBottomColor: '#ccc',
           },
         ]}>
-        <View>
-          <View style={groceryStyleSheet.addbuttonView}>
-            {item?.count === 0 ? (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={groceryStyleSheet.addButton}
-                onPress={() => {
-                  if (grocery?.includes(item)) {
-                    item.count++;
-                    setGrocery([...grocery]);
-                  }
-                }}>
-                <Text style={groceryStyleSheet.addButtonText}> Add</Text>
-              </TouchableOpacity>
-            ) : (
-              <View style={groceryStyleSheet.touchableOpacityView}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            navigation.navigate('ItemDetail', {data: item});
+          }}>
+          <View>
+            <View style={groceryStyleSheet.addbuttonView}>
+              {item?.count === 0 ? (
                 <TouchableOpacity
                   activeOpacity={0.8}
+                  style={groceryStyleSheet.addButton}
                   onPress={() => {
-                    item.count--;
-                    setGrocery([...grocery]);
-                  }}
-                  style={groceryStyleSheet.addMinusButton}>
-                  <Text style={groceryStyleSheet.addButtonText}>-</Text>
+                    if (grocery?.includes(item)) {
+                      item.count++;
+                      setGrocery([...grocery]);
+                    }
+                  }}>
+                  <Text style={groceryStyleSheet.addButtonText}> Add</Text>
                 </TouchableOpacity>
-                <Text style={groceryStyleSheet.counterText}>{item?.count}</Text>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    item.count++;
-                    setGrocery([...grocery]);
-                  }}
-                  style={groceryStyleSheet.addMinusButton}>
-                  <Text style={groceryStyleSheet.addButtonText}>+</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            <Image style={groceryStyleSheet.image} source={{uri: item.image}} />
-            <View>
-              <Text numberOfLines={1} style={groceryStyleSheet.text}>
-                {item.title}
-              </Text>
-              <View style={groceryStyleSheet.detailWrapper}>
-                <View>
-                  <Text style={groceryStyleSheet.smallText}>UOM</Text>
-                  <Text style={groceryStyleSheet.smallText}>02</Text>
-                </View>
-                <View>
-                  <Text style={groceryStyleSheet.smallText}>PACK SIZE</Text>
-                  <Text style={groceryStyleSheet.smallText}>02</Text>
-                </View>
-                <View>
-                  <Text style={groceryStyleSheet.smallText}>PER UNIT</Text>
-                  <Text style={groceryStyleSheet.smallText}>
-                    $ {item.price}
+              ) : (
+                <View style={groceryStyleSheet.touchableOpacityView}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      item.count--;
+                      setGrocery([...grocery]);
+                    }}
+                    style={groceryStyleSheet.addMinusButton}>
+                    <Text style={groceryStyleSheet.addButtonText}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={groceryStyleSheet.counterText}>
+                    {item?.count}
                   </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      item.count++;
+                      setGrocery([...grocery]);
+                    }}
+                    style={groceryStyleSheet.addMinusButton}>
+                    <Text style={groceryStyleSheet.addButtonText}>+</Text>
+                  </TouchableOpacity>
                 </View>
-                <View>
-                  <Text style={groceryStyleSheet.smallText}>TOTAL</Text>
-                  <Text style={groceryStyleSheet.smallText}>
-                    $ {(item.price * item.count)?.toFixed(2)}
-                  </Text>
+              )}
+              <Image
+                style={groceryStyleSheet.image}
+                source={{uri: item.image}}
+              />
+              <View>
+                <Text numberOfLines={1} style={groceryStyleSheet.text}>
+                  {item.title}
+                </Text>
+                <View style={groceryStyleSheet.detailWrapper}>
+                  <View>
+                    <Text style={groceryStyleSheet.smallText}>UOM</Text>
+                    <Text style={groceryStyleSheet.smallText}>02</Text>
+                  </View>
+                  <View>
+                    <Text style={groceryStyleSheet.smallText}>PACK SIZE</Text>
+                    <Text style={groceryStyleSheet.smallText}>02</Text>
+                  </View>
+                  <View>
+                    <Text style={groceryStyleSheet.smallText}>PER UNIT</Text>
+                    <Text style={groceryStyleSheet.smallText}>
+                      $ {item.price}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={groceryStyleSheet.smallText}>TOTAL</Text>
+                    <Text style={groceryStyleSheet.smallText}>
+                      $ {(item.price * item.count)?.toFixed(2)}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -162,7 +182,9 @@ const GroceryStore = () => {
         <View style={groceryStyleSheet.container}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.openDrawer();
+            }}
             style={groceryStyleSheet.arrowStyle}>
             <Image
               style={groceryStyleSheet.moreIconImg}
@@ -182,13 +204,19 @@ const GroceryStore = () => {
           />
         </View>
         <View style={groceryStyleSheet.flatListWrapper}>
-          <FlatList
-            data={grocery}
-            renderItem={({item, index}) => (
-              <ListItem item={item} index={index} />
-            )}
-            contentContainerStyle={groceryStyleSheet.flatListContainerStyle}
-          />
+          {!grocery && <Text> Loading</Text>}
+          {grocery && (
+            <FlatList
+              ListEmptyComponent={handleEmpty}
+              data={grocery}
+              onRefresh={() => console.log('refreshing')}
+              refreshing={false}
+              renderItem={({item, index}) => (
+                <ListItem item={item} index={index} />
+              )}
+              contentContainerStyle={groceryStyleSheet.flatListContainerStyle}
+            />
+          )}
         </View>
       </SafeAreaView>
       <View style={groceryStyleSheet.footerStyle}>
