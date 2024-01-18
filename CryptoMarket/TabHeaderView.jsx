@@ -3,6 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 
 const TabHeaderView = props => {
+  console.log('Rendering TabHeaderView');
   const headers = ['Market', 'Price', 'Change', 'Market cap'];
   const data = [
     {Market: 'AAPL', Price: 150.25, Change: 1.5, MarketCap: 2.5e6},
@@ -48,14 +49,7 @@ const TabHeaderView = props => {
         onChangeText={value => {
           optimizedFn(value);
         }}
-        style={{
-          height: 30,
-          paddingLeft: 10,
-          borderWidth: 1,
-          marginHorizontal: 20,
-          borderRadius: 20,
-          borderColor: '#ebecf0',
-        }}></TextInput>
+        style={headerView.searchTextInput}></TextInput>
       <View style={headerView.listheadersText}>
         {headers.map((header, index) => (
           <Text
@@ -72,7 +66,7 @@ const TabHeaderView = props => {
   );
 };
 
-export default TabHeaderView;
+export default React.memo(TabHeaderView);
 
 const headerView = StyleSheet.create({
   headerContainer: {
@@ -115,5 +109,13 @@ const headerView = StyleSheet.create({
     top: 10,
     paddingBottom: 10,
     justifyContent: 'space-between',
+  },
+  searchTextInput: {
+    height: 30,
+    paddingLeft: 10,
+    borderWidth: 1,
+    marginHorizontal: 20,
+    borderRadius: 20,
+    borderColor: '#ebecf0',
   },
 });

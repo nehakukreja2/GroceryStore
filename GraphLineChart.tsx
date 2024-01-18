@@ -124,7 +124,6 @@ const lineGraphStyle = StyleSheet.create({
   headingText: {
     fontWeight: 'bold',
     fontSize: 18,
-    backgroundColor: 'clear',
     paddingHorizontal: 20,
     color: 'black',
   },

@@ -1,24 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import {BarChart} from 'react-native-gifted-charts';
 import {MarketItemClickContext} from '../App';
+// import BarGraph from './BarGraph';
 
 const CurrentBalance = () => {
-  const {clickedItem, setClickedItem} = useContext(MarketItemClickContext);
-  const barChartData = [
-    {value: 25, frontColor: '#f78f1a'},
-    {value: 50, frontColor: '#2773c9'},
-    {value: 74, frontColor: '#35ab56'},
-    {value: 32, frontColor: '#f78f1a'},
-    {value: 60, frontColor: '#2773c9'},
-    {value: 25, frontColor: '#35ab56'},
-    {value: 30, frontColor: '#f78f1a'},
-    {value: 30, frontColor: '#2773c9'},
-    {value: 30, frontColor: '#35ab56'},
-    {value: 50, frontColor: '#35ab56'},
-    {value: 26, frontColor: '#f78f1a'},
-    {value: 39, frontColor: '#2773c9'},
-  ];
+  console.log('Rendering CurrentBalance');
+  const {clickedItem} = useContext(MarketItemClickContext);
 
   return (
     <View style={currentBalStyles.baseView}>
@@ -42,23 +30,7 @@ const CurrentBalance = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View>
-        <BarChart
-          data={barChartData}
-          hideYAxisText
-          height={150}
-          barWidth={15}
-          withCustomBarColorFromData={true}
-          flatColor={true}
-          hideRules
-          yAxisThickness={0}
-          xAxisThickness={0}
-          barBorderTopLeftRadius={15}
-          barBorderTopRightRadius={15}
-          spacing={11.5}
-          disableScroll
-        />
-      </View>
+      <BarGraph />
       <View style={currentBalStyles.categoriesView}>
         <Text> All</Text>
         <Text> 4h</Text>
@@ -67,6 +39,44 @@ const CurrentBalance = () => {
         <Text> 7d</Text>
         <Text> 30d</Text>
       </View>
+    </View>
+  );
+};
+
+const BarGraph = () => {
+  console.log('render Map');
+  const barChartData = [
+    {value: 25, frontColor: '#f78f1a'},
+    {value: 50, frontColor: '#2773c9'},
+    {value: 74, frontColor: '#35ab56'},
+    {value: 32, frontColor: '#f78f1a'},
+    {value: 60, frontColor: '#2773c9'},
+    {value: 25, frontColor: '#35ab56'},
+    {value: 30, frontColor: '#f78f1a'},
+    {value: 30, frontColor: '#2773c9'},
+    {value: 30, frontColor: '#35ab56'},
+    {value: 50, frontColor: '#35ab56'},
+    {value: 26, frontColor: '#f78f1a'},
+    {value: 39, frontColor: '#2773c9'},
+  ];
+
+  return (
+    <View>
+      <BarChart
+        data={barChartData}
+        hideYAxisText
+        height={150}
+        barWidth={15}
+        withCustomBarColorFromData={true}
+        flatColor={true}
+        hideRules
+        yAxisThickness={0}
+        xAxisThickness={0}
+        barBorderTopLeftRadius={15}
+        barBorderTopRightRadius={15}
+        spacing={11.5}
+        disableScroll
+      />
     </View>
   );
 };

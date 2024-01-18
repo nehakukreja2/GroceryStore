@@ -9,11 +9,12 @@ import {
 import {MarketItemClickContext} from '../App';
 
 const MarketListRenderItem = ({item}) => {
-  const {setClickedItem} = useContext(MarketItemClickContext);
+  console.log('Rendering MarketListRenderItem');
+  const {clickedItem, setClickedItem} = useContext(MarketItemClickContext);
 
   const handleClick = useCallback(() => {
     setClickedItem(item.Price);
-  }, [item.Price]);
+  }, [clickedItem]);
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={handleClick}>

@@ -5,8 +5,6 @@ import MarketListRenderItem from './MarketListRenderItem';
 import {MarketItemClickContext} from '../App';
 
 const RecentTabView = ({route}) => {
-  const {setClickedItem} = useContext(MarketItemClickContext);
-
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
       <TabHeaderView
@@ -15,9 +13,7 @@ const RecentTabView = ({route}) => {
       />
       <FlatList
         data={route.params.data}
-        renderItem={({item}) => (
-          <MarketListRenderItem setClickedItem={setClickedItem} item={item} />
-        )}
+        renderItem={({item}) => <MarketListRenderItem item={item} />}
         keyExtractor={item => item.Market}
       />
     </View>
