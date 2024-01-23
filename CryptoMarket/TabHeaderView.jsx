@@ -111,7 +111,7 @@ const headerView = StyleSheet.create({
     justifyContent: 'space-between',
   },
   searchTextInput: {
-    height: 30,
+    height: 40,
     paddingLeft: 10,
     borderWidth: 1,
     marginHorizontal: 20,

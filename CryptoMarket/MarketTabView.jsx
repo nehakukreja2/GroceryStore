@@ -6,12 +6,8 @@ import {MarketItemClickContext} from '../App';
 
 const MarketTabView = ({route}) => {
   console.log('Rendering MarketTabView');
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState(route.params.data);
   const [timeoutToClear, settimeoutToClear] = useState('');
-
-  useEffect(() => {
-    setSuggestions(route.params.data);
-  }, []);
 
   const debounce = (callback, delay) => {
     return (...args) => {
@@ -25,15 +21,17 @@ const MarketTabView = ({route}) => {
   };
 
   const debouncedHandleSearch = debounce(value => {
-    const filteredData = suggestions.filter(suggestion => {
-      console.log('suggestion', suggestion);
-      return suggestion.toLowerCase().includes(value.toLowerCase());
+    console.log('value', value);
+    console.log('suggestions', suggestions);
+    const filteredData = route.params.data.filter(item => {
+      console.log('suggestion', item);
+      return item.Market.toLowerCase().includes(value.toLowerCase());
     });
     setSuggestions(filteredData);
     console.log(value);
     console.log(filteredData);
     console.log('Suggestions:', suggestions);
-  }, 500);
+  }, 1000);
 
   const handleSearch = value => {
     debouncedHandleSearch(value);
